@@ -33,7 +33,7 @@
 
 # 
 # ########### ALTERNATIVELY ###########  ALTERNATIVELY ##################################################
-#######GENERIC CLASS-BASED VIEWS##########################
+####### GENERIC CLASS-BASED VIEWS ##########################
 ## we can go one step further. REST framework provides a set of already mixed-in generic views that we can use to trim down our views.py module even more
 
 
