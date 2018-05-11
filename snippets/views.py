@@ -1,4 +1,5 @@
-# from snippets.models import Snippet
+## USING MIXINS 
+#from snippets.models import Snippet
 # from snippets.serializers import SnippetSerializer
 # from rest_framework import mixins
 # from rest_framework import generics
@@ -32,7 +33,7 @@
 
 # 
 # ########### ALTERNATIVELY ###########  ALTERNATIVELY ##################################################
-
+#######GENERIC CLASS-BASED VIEWS##########################
 ## we can go one step further. REST framework provides a set of already mixed-in generic views that we can use to trim down our views.py module even more
 
 
