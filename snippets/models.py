@@ -23,7 +23,7 @@ class Snippet(models.Model):
     language =models.CharField(choices=LANGUAGE_CHOICES, default='python', max_length=100)
     style = models.CharField(choices=STYLE_CHOICES, default='friendly', max_length=100)
     owner= models.ForeignKey('auth.User', related_name ='snippets', on_delete=models.CASCADE)
-    higlighted = models.TextField()
+    highlighted = models.TextField()
     
     def save(self,*args,**kwargs):
         
@@ -31,7 +31,7 @@ class Snippet(models.Model):
         linenos='table' if self.linenos else False
         options ={'title':self.title} if self.title else {}
         formatter =HtmlFormatter(style=self.style, linenos=linenos, full=True, **options)
-        self.higlighted = highlight(self.code, lexer, formatter)
+        self.highlighted = highlight(self.code, lexer, formatter)
         super(Snippet,self).save(*args,**kwargs)
         
         

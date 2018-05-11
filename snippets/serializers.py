@@ -26,11 +26,19 @@ from django.contrib.auth.models import User
 #         return instance
 ################## OR less verbose ###########
 
-class SnippetSerializer(serializers.ModelSerializer):
+class SnippetSerializer(serializers.HyperlinkedModelSerializer):
+    owner =serializers.ReadOnlyField(source='ownwer.username')
+    
+    #Notice that we've also added a new 'highlight' field. This field is of the same type as the url field, except that it points to the
+    #'snippet-highlight' url pattern, instead of the 'snippet-detail' url pattern.Because we've included format suffixed URLs such as '.json', we also need to 
+    #indicate on the highlight field that any format suffixed hyperlinks it returns should use the '.html' suffix.
+    
+    
+    highlight = serializers.HyperlinkedIdentityField(view_name='snippet-highlight', format='html')
+    
     class Meta:
         model = Snippet
-        #owner =serializers.ReadOnlyField(source='ownwer.username')
-        fields =('id','title','code','linenos','language','style','owner')
+        fields =('id','title','code','linenos','language','style','owner','url','highlight')
        
     def create(self, validated_data):
         #create and return anew 'Snippet' instance, given the validated data
@@ -49,11 +57,11 @@ class SnippetSerializer(serializers.ModelSerializer):
         return instance
 
 class UserSerializer(serializers.ModelSerializer):
-    snippets = serializers.PrimaryKeyRelatedField(many=True, queryset=Snippet.objects.all())
+    snippets = serializers.HyperlinkedRelatedField(many=True, view_name='snippet-detail', read_only=True)
     
     class Meta:
         model = User
-        fields= ('id','username','snippets')#Because 'snippets' is a reverse relationship on the User model, it will not be included by default when using the ModelSerializer class, so we needed to add an explicit field for it.
+        fields= ('url','id','username','snippets')#Because 'snippets' is a reverse relationship on the User model, it will not be included by default when using the ModelSerializer class, so we needed to add an explicit field for it.
         
         
     
